@@ -99,7 +99,7 @@ public class MiaoshaController implements InitializingBean {
             return result;
         }
 
-        //是否已经秒杀到
+        //是否已经秒杀到,根据user和商品id去redis判断是否有秒杀资格（商品不存在 该用户已经秒杀过了）
         MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(Long.parseLong(user.getNickname()), goodsId);
         if (order != null) {
             result.withError(EXCEPTION.getCode(), REPEATE_MIAOSHA.getMessage());

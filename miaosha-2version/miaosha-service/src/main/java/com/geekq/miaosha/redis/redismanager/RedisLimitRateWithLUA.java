@@ -1,5 +1,6 @@
 package com.geekq.miaosha.redis.redismanager;
 
+import com.alibaba.dubbo.common.utils.NamedThreadFactory;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
@@ -8,17 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+/**
+ * @author zhangchaozhen
+ */
 public class RedisLimitRateWithLUA {
 
     public static void main(String[] args) {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(19);
         ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(50);
+        NamedThreadFactory namedThreadFactory = new NamedThreadFactory();
         ThreadPoolExecutor threadPoolExecutor =
-                new ThreadPoolExecutor(20,30,5,TimeUnit.SECONDS,queue);
+                new ThreadPoolExecutor(20,30,5,TimeUnit.SECONDS,queue,namedThreadFactory);
         for (int i = 0; i < 20; i++) {
             threadPoolExecutor.execute(() -> {
                 try {
-                    latch.await();
+                    latch.countDown();
                     System.out.println("请求是否被执行："+accquire());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -30,7 +35,7 @@ public class RedisLimitRateWithLUA {
     }
 
     public static boolean accquire() throws IOException, URISyntaxException {
-        Jedis jedis = new Jedis("39.107.245.253");
+        Jedis jedis = new Jedis("127.0.0.1");
 
         String lua =
                 "local key = KEYS[1] " +
@@ -46,12 +51,11 @@ public class RedisLimitRateWithLUA {
         // 当前秒
         String key = "ip:" + System.currentTimeMillis()/1000;
         // 最大限制
-        String limit = "3";
+        String limit = "5";
         List<String> keys = new ArrayList<>();
         keys.add(key);
         List<String> args = new ArrayList<>();
         args.add(limit);
-        jedis.auth("youxin11");
         String luaScript = jedis.scriptLoad(lua);
         Long result = (Long)jedis.evalsha(luaScript, keys, args);
         return result == 1;

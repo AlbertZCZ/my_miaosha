@@ -1,4 +1,4 @@
-### 本项目为https://github.com/qiurunze123/miaosha本地测试版，已把对我没用的文件删除   
+### 本项目为`https://github.com/qiurunze123/miaosha`本地测试版，已把对我没用的文件删除   
 
 ![互联网 Java 秒杀系统设计与架构](https://raw.githubusercontent.com/qiurunze123/imageall/master/miaoshashejitu.png)
 
@@ -6,9 +6,6 @@
 
 [功能说明](/docs/model-instructions.md)  
  
-一点小建议：学习本系列知识之前，如果你完全没接触过 `MQ`、`SpringBoot`、`Redis`、`Dubbo`、`ZK` 、`Maven`,`lua`等，那么我建议你可以先在网上搜一下每一块知识的快速入门，
-也可以下载本项目边做边学习，我的项目完全是实战加讲解不想写一堆的文章，浪费我们的生命，你还不懂内层含义，想要明白就边实际操作边学习，效果会更好！加油💪💪
-
 ### 最初版本请下载 (https://pan.baidu.com/s/1sld8RBSvLe2q4gc-Z-fVAQ)
 ### 如果想先看dubbo + zk 了解请下载we-miaosha ，miaosha-order  为项目分离示例项目！会不断完善！此版本为springboot2.0+ 请使JDK1.8+
 ### start 维护 开始搭建 
